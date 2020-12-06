@@ -1,0 +1,32 @@
+#include <stdio.h>
+
+int main(void)
+{
+   FILE *cfPtr; // cfPtr = clients.txt file pointer
+
+   // fopen opens file. Exit program if unable to create file
+   if ((cfPtr = fopen("clients.txt", "w")) == NULL) {
+      puts("File could not be opened");
+   }
+   else {
+      puts("Enter the account, name, and balance.");
+      puts("Enter EOF to end input.");
+      printf("%s", "? ");
+
+      unsigned int userID; // account number
+      char name[30]; // account name
+      char password[30];
+      double credit; // account balance
+
+      scanf("%d  %29s %29s %lf", &userID, name, password, &credit);
+
+      // write account, name and balance into file with fprintf
+      while (!feof(stdin)) {
+         fprintf(cfPtr, "%d %s %s %.2f\n", userID, name, password, credit);   //I think the issue is around here somewhere. it was working until i tried adding password. 
+         printf("%s", "? ");                                                  //I am honestly not sure why it does not work the same exact way as name, but it seems to
+         scanf("%d %29s %29s %lf", &userID, name, password, &credit);         // get stuck in a loop of "?"'s
+      }
+
+      fclose(cfPtr); // fclose closes file
+   }
+}
